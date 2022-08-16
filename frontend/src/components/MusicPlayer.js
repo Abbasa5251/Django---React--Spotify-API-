@@ -7,8 +7,9 @@ import {
 	LinearProgress,
 } from "@material-ui/core";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import SkipNextIcon from "@material-ui/icons/SkipNext";
 import PauseIcon from "@material-ui/icons/Pause";
+import SkipNextIcon from "@material-ui/icons/SkipNext";
+import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 
 export default class MusicPlayer extends Component {
 	constructor(props) {
@@ -29,6 +30,22 @@ export default class MusicPlayer extends Component {
 			headers: { "Content-Type": "application/json" },
 		};
 		fetch("/spotify/play", requestOptions);
+	}
+
+	skipSong() {
+		const requestOptions = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+		};
+		fetch("/spotify/skip", requestOptions);
+	}
+
+	previousSong() {
+		const requestOptions = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+		};
+		fetch("/spotify/previous", requestOptions);
 	}
 
 	render() {
@@ -55,6 +72,13 @@ export default class MusicPlayer extends Component {
 						<div>
 							<IconButton
 								onClick={() => {
+									this.previousSong();
+								}}
+							>
+								<SkipPreviousIcon />
+							</IconButton>
+							<IconButton
+								onClick={() => {
 									this.props.is_playing
 										? this.pauseSong()
 										: this.playSong();
@@ -66,7 +90,11 @@ export default class MusicPlayer extends Component {
 									<PlayArrowIcon />
 								)}
 							</IconButton>
-							<IconButton>
+							<IconButton
+								onClick={() => {
+									this.skipSong();
+								}}
+							>
 								<SkipNextIcon />
 							</IconButton>
 						</div>
